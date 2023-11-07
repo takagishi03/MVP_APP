@@ -7,13 +7,15 @@ class ContactController extends Controller
 
     // 入力画面
     public function index()
-    {
-        $errorMessages = $_SESSION['errorMessages'] ?? [];
-        $post = $_SESSION['post'] ?? [];
-        $_SESSION['errorMessages'] = [];
-        $_SESSION['post'] = [];
-        $this->view('contact/index', ['errorMessages' => $errorMessages, 'post' => $post]);
-    }
+{
+    $contact = new contact;
+    $errorMessages = $_SESSION['errorMessages'] ?? [];
+    $post = $_SESSION['post'] ?? [];
+    $_SESSION['errorMessages'] = [];
+    $_SESSION['post'] = [];
+    $contacts = $contact->getAllContacts();
+    $this->view('contact/index', ['errorMessages' => $errorMessages, 'post' => $post, 'contacts' => $contacts]);
+}
 
     // 確認画面
     public function confirmation()

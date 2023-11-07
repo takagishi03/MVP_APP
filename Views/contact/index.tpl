@@ -48,6 +48,32 @@
                 </form>
             </div>
         </div>
+        <table class="table table-striped-columns">
+            <tr>
+                <th>Name</th>
+                <th>Kana</th>
+                <th>Telephone</th>
+                <th>Email</th>
+                <th>Body</th>
+                <th>ID</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            {foreach from=$contacts item=contact}
+            <tr>
+                <td>{$contact->name}</td>
+                <td>{$contact->kana}</td>
+                <td>{$contact->tel}</td>
+                <td>{$contact->email}</td>
+                <td>{$contact->body}</td>
+                <td>{$contact->id}</td>
+                <td><button>Edit</button></td>
+                <td><button>Delete</button></td>
+            </tr>
+            {/foreach}
+
+
+        </table>
         <div>
             <div class="row justify-content-md-center text-center">
                 <div class="col-lg-6 mx-auto col-md-8">
@@ -63,6 +89,8 @@
         </div>
     </div>
 
+
+
     <script>
         function validateForm() {
             var name = document.forms[0]["name"].value;
@@ -71,7 +99,7 @@
             var email = document.forms[0]["email"].value;
             var body = document.forms[0]["body"].value;
 
-            var valid = true; // バリデーションのフラグ
+            var valid = true; // フロントバリデーションのフラグ
 
             if (name === "") {
                 document.getElementById("nameError").innerHTML = "氏名を入力してください.";

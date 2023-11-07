@@ -19,6 +19,8 @@ class Contact extends Db
      */
     public function create(string $name, string $kana, string $tel, string $email, string $body)
     {
+
+
         try {
             $this->dbh->beginTransaction();
             $query = 'INSERT INTO contacts (name, kana, tel, email, body) VALUES (:name, :kana, :tel, :email, :body)';
@@ -41,6 +43,28 @@ class Contact extends Db
             // 不具合があった場合トランザクションをロールバックして変更をなかったことにする。
             $this->dbh->rollBack();
             echo "登録失敗: " . $e->getMessage() . "\n";
+            exit();
+        }
+    }
+
+    /**
+     * 表示用の問い合わせ内容を全件取得して返却する
+     * @param int $id id
+     * @param string $name 氏名
+     * @param string $kana ふりがな
+     * @param string $tel 電話番号
+     * @param string $email メールアドレス
+     * @param string $body お問い合わせ内容
+     */
+    public function getAllContacts(): array
+    {
+        try {
+            $query = 'SELECT * FROM contacts';
+            $stmt = $this->dbh->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            echo "データベースエラー: " . $e->getMessage() . "\n";
             exit();
         }
     }
