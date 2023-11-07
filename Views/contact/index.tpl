@@ -41,34 +41,39 @@
                     </div>
                     <div class="form-group">
                         <label for="body">問い合わせ内容</label>
-                        <input type="text" class="form-control" name="body" placeholder="お問い合わせ内容" value="{$post['body']|default:''}">
+                        <textarea class="form-control" name="body" placeholder="お問い合わせ内容">{$post['body']|default:''}</textarea>
                         <p class="error-text" id="bodyError">{$errorMessages['body']|default:''}</p>
                     </div>
+
                     <button class="btn bg-warning my-2" type="submit">送信</button>
                 </form>
             </div>
         </div>
         <table class="table table-striped-columns">
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Kana</th>
                 <th>Telephone</th>
                 <th>Email</th>
                 <th>Body</th>
-                <th>ID</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
             {foreach from=$contacts item=contact}
             <tr>
+                <td>{$contact->id}</td>
                 <td>{$contact->name}</td>
                 <td>{$contact->kana}</td>
                 <td>{$contact->tel}</td>
                 <td>{$contact->email}</td>
                 <td>{$contact->body}</td>
-                <td>{$contact->id}</td>
-                <td><button>Edit</button></td>
-                <td><button>Delete</button></td>
+                <td>
+                    <a href="/contact/edit?id={$contact->id}" class="button mt-4">編集</a>
+                </td>
+                <td>
+                    <a href="/contact/delete?id={$contact->id}" class="button mt-4" onclick="return confirm('本当に削除しますか?')">削除</a>
+                </td>
             </tr>
             {/foreach}
 

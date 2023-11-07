@@ -49,7 +49,7 @@ class Contact extends Db
 
     /**
      * 表示用の問い合わせ内容を全件取得して返却する
-     * @param int $id id
+     * @param int $id 問い合わせID
      * @param string $name 氏名
      * @param string $kana ふりがな
      * @param string $tel 電話番号
@@ -65,6 +65,32 @@ class Contact extends Db
             return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             echo "データベースエラー: " . $e->getMessage() . "\n";
+            exit();
+        }
+    }
+
+    /**
+     * ユーザーIDに対応するユーザーのデータをテーブルから削除する
+     * @param string $id 問い合わせID
+     * @return void
+     */
+    public function deleteContact(string $id)
+    {
+        try {
+            $this->dbh->beginTransaction();
+            $query = 'DELETE FROM contacts WHERE id = :id';
+            $stmt = $this->dbh->prepare($query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            echo "deleteContact";
+            // トランザクションを完了することでデータの書き込みを確定させる
+            $this->dbh->commit();
+            return;
+
+        } catch (PDOException $e) {
+            // 不具合があった場合トランザクションをロールバックして変更をなかったコトにする。
+            $this->dbh->rollBack();
+            echo "削除失敗: " . $e->getMessage() . "\n";
             exit();
         }
     }

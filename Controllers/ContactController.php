@@ -7,15 +7,15 @@ class ContactController extends Controller
 
     // 入力画面
     public function index()
-{
-    $contact = new contact;
-    $errorMessages = $_SESSION['errorMessages'] ?? [];
-    $post = $_SESSION['post'] ?? [];
-    $_SESSION['errorMessages'] = [];
-    $_SESSION['post'] = [];
-    $contacts = $contact->getAllContacts();
-    $this->view('contact/index', ['errorMessages' => $errorMessages, 'post' => $post, 'contacts' => $contacts]);
-}
+    {
+        $contact = new contact;
+        $errorMessages = $_SESSION['errorMessages'] ?? [];
+        $post = $_SESSION['post'] ?? [];
+        $_SESSION['errorMessages'] = [];
+        $_SESSION['post'] = [];
+        $contacts = $contact->getAllContacts();
+        $this->view('contact/index', ['errorMessages' => $errorMessages, 'post' => $post, 'contacts' => $contacts]);
+    }
 
     // 確認画面
     public function confirmation()
@@ -94,5 +94,21 @@ class ContactController extends Controller
                 header('Location: /contact/index');
             }
         }
+    }
+
+    // デリート
+    public function delete()
+    {
+        $id = $_GET['id'];
+        // 確認用
+        // if (isset($id)) {
+        //     echo "\$id が格納されています。値は: $id です。";
+        // } else {
+        //     echo "\$id は格納されていません。";
+        // }
+        $contact = new contact;
+        $contact->deleteContact($id);
+        header("Location: /contact/index");
+        exit();
     }
 }

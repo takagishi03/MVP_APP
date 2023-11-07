@@ -82,6 +82,14 @@ function route($path, $httpMethod)
                     case ['create', 'post']:
                         $methodName = 'create';
                         break;
+                        // 削除
+                    case ['delete', 'get']:
+                        $methodName = 'delete';
+                        break;
+                        // 編集
+                    case ['edit', 'get']:
+                        $methodName = 'edit';
+                        break;
                 }
                 break;
 

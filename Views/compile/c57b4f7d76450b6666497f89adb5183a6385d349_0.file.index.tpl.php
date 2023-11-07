@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-11-07 12:05:30
+/* Smarty version 4.3.4, created on 2023-11-07 12:52:19
   from '/Applications/MAMP/htdocs/mvc_app/Views/contact/index.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_654a280a36f2f4_91746069',
+  'unifunc' => 'content_654a33038c6dd3_87894821',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c57b4f7d76450b6666497f89adb5183a6385d349' => 
     array (
       0 => '/Applications/MAMP/htdocs/mvc_app/Views/contact/index.tpl',
-      1 => 1699358723,
+      1 => 1699361537,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_654a280a36f2f4_91746069 (Smarty_Internal_Template $_smarty_tpl) {
+function content_654a33038c6dd3_87894821 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <html lang="ja">
 
@@ -72,23 +72,24 @@ function content_654a280a36f2f4_91746069 (Smarty_Internal_Template $_smarty_tpl)
                     </div>
                     <div class="form-group">
                         <label for="body">問い合わせ内容</label>
-                        <input type="text" class="form-control" name="body" placeholder="お問い合わせ内容" value="<?php echo (($tmp = $_smarty_tpl->tpl_vars['post']->value['body'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-">
+                        <textarea class="form-control" name="body" placeholder="お問い合わせ内容"><?php echo (($tmp = $_smarty_tpl->tpl_vars['post']->value['body'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+</textarea>
                         <p class="error-text" id="bodyError"><?php echo (($tmp = $_smarty_tpl->tpl_vars['errorMessages']->value['body'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 </p>
                     </div>
+
                     <button class="btn bg-warning my-2" type="submit">送信</button>
                 </form>
             </div>
         </div>
         <table class="table table-striped-columns">
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Kana</th>
                 <th>Telephone</th>
                 <th>Email</th>
                 <th>Body</th>
-                <th>ID</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -99,6 +100,8 @@ if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['contact']->value
 $_smarty_tpl->tpl_vars['contact']->do_else = false;
 ?>
             <tr>
+                <td><?php echo $_smarty_tpl->tpl_vars['contact']->value->id;?>
+</td>
                 <td><?php echo $_smarty_tpl->tpl_vars['contact']->value->name;?>
 </td>
                 <td><?php echo $_smarty_tpl->tpl_vars['contact']->value->kana;?>
@@ -109,10 +112,14 @@ $_smarty_tpl->tpl_vars['contact']->do_else = false;
 </td>
                 <td><?php echo $_smarty_tpl->tpl_vars['contact']->value->body;?>
 </td>
-                <td><?php echo $_smarty_tpl->tpl_vars['contact']->value->id;?>
-</td>
-                <td><button>Edit</button></td>
-                <td><button>Delete</button></td>
+                <td>
+                    <a href="/contact/edit?id=<?php echo $_smarty_tpl->tpl_vars['contact']->value->id;?>
+" class="button mt-4">編集</a>
+                </td>
+                <td>
+                    <a href="/contact/delete?id=<?php echo $_smarty_tpl->tpl_vars['contact']->value->id;?>
+" class="button mt-4" onclick="return confirm('本当に削除しますか?')">削除</a>
+                </td>
             </tr>
             <?php
 }
