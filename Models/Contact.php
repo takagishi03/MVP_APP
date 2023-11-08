@@ -70,6 +70,61 @@ class Contact extends Db
     }
 
     /**
+     * 更新用にデータを取得して返却する
+     *
+     * @param string $id ユーザーID
+     * @return stdClass object型で取得したユーザーのデータを返却する
+     */
+    public function getContact(string $id): stdClass
+    {
+        try {
+            $query = 'SELECT * FROM contacts WHERE id = :id';
+            $stmt = $this->dbh->prepare($query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            echo "認証エラー: " . $e->getMessage() . "\n";
+            exit();
+        }
+    }
+
+    /**
+     * @param string $name 氏名
+     * @param string $kana ふりがな
+     * @param string $tel 電話番号
+     * @param string $email メールアドレス
+     * @param string $body お問い合わせ内容
+     */
+    public function updateContact(string $id, string $name, string $kana, string $tel, string $email, string $body)
+    {
+        try {
+            $this->dbh->beginTransaction();
+            $query = 'UPDATE contacts SET name = :name, kana = :kana, tel = :tel, email = :email, body = :body WHERE id = :id';
+
+            $stmt = $this->dbh->prepare($query);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':kana', $kana, PDO::PARAM_STR);
+            $stmt->bindParam(':tel', $tel, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':body', $body, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT); // Assuming ID is an integer
+            $stmt->execute();
+
+            // トランザクションを完了することでデータの書き込みを確定させる
+            $this->dbh->commit();
+
+            return true; // 成功を示す値を返す
+        } catch (PDOException $e) {
+            // 不具合があった場合トランザクションをロールバックして変更をなかったことにする。
+            $this->dbh->rollBack();
+            echo "更新失敗: " . $e->getMessage() . "\n";
+            return false; // 失敗を示す値を返す
+        }
+    }
+
+
+    /**
      * ユーザーIDに対応するユーザーのデータをテーブルから削除する
      * @param string $id 問い合わせID
      * @return void
@@ -86,7 +141,6 @@ class Contact extends Db
             // トランザクションを完了することでデータの書き込みを確定させる
             $this->dbh->commit();
             return;
-
         } catch (PDOException $e) {
             // 不具合があった場合トランザクションをロールバックして変更をなかったコトにする。
             $this->dbh->rollBack();

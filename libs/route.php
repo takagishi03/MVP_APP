@@ -68,8 +68,7 @@ function route($path, $httpMethod)
                     case ['index', 'get']:
                         $methodName = 'index';
                         break;
-
-                        // キャンセル時画面
+                        // キャンセル時画
                     case ['index', 'post']:
                         $methodName = 'index';
                         break;
@@ -77,7 +76,6 @@ function route($path, $httpMethod)
                     case ['edit-confirmation', 'post']:
                         $methodName = 'confirmation';
                         break;
-
                         // 登録
                     case ['create', 'post']:
                         $methodName = 'create';
@@ -86,6 +84,17 @@ function route($path, $httpMethod)
                     case ['delete', 'get']:
                         $methodName = 'delete';
                         break;
+                        // 修正
+
+                    case ['edit', 'get']:
+                        $methodName = 'edit';
+                        break;
+
+                        // 更新
+                    case ['up-date', 'post']:
+                        $methodName = 'update';
+                        break;
+
                         // 編集
                     case ['edit', 'get']:
                         $methodName = 'edit';

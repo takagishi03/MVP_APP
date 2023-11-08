@@ -16,28 +16,29 @@
 
         <div class="alert alert-info">
             <strong>氏名:</strong>
-            <p>{$post['name']}</p>
+            <p>{$post['name']|escape}</p>
         </div>
         <div class="alert alert-info">
             <strong>ふりがな:</strong>
-            <p>{$post['kana']}</p>
+            <p>{$post['kana']|escape}</p>
         </div>
         <div class="alert alert-info">
             <strong>電話番号:</strong>
-            <p>{$post['tel']}</p>
+            <p>{$post['tel']|escape}</p>
         </div>
         <div class="alert alert-info">
             <strong>メールアドレス:</strong>
-            <p>{$post['email']}</p>
+            <p>{$post['email']|escape}</p>
         </div>
         <div class="alert alert-info">
             <strong>問い合わせ内容:</strong>
-            <p>{$post['body']}</p>
+            <p>{$post['body']|escape|nl2br}</p>
         </div>
 
         <p>上記の内容でよろしいでしょうか？</p>
 
         <form action="/contact/create" method="post">
+        <input type="hidden" name="csrf_token" value="{$csrf_token}">
             <input type="hidden" name="name" value="{$post['name']}">
             <input type="hidden" name="kana" value="{$post['kana']}">
             <input type="hidden" name="tel" value="{$post['tel']}">
@@ -59,6 +60,47 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function validateForm() {
+            var name = document.forms[0]["name"].value;
+            var kana = document.forms[0]["kana"].value;
+            var tel = document.forms[0]["tel"].value;
+            var email = document.forms[0]["email"].value;
+            var body = document.forms[0]["body"].value;
+
+            var valid = true; // フロントバリデーションのフラグ
+
+            if (name === "") {
+                document.getElementById("nameError").innerHTML = "氏名を入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("nameError").innerHTML = "";
+            }
+
+            if (kana === "") {
+                document.getElementById("kanaError").innerHTML = "ふりがなを入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("kanaError").innerHTML = "";
+            }
+
+            if (email === "") {
+                document.getElementById("emailError").innerHTML = "メールアドレスを入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("emailError").innerHTML = "";
+            }
+
+            if (tel.length > 11) {
+                document.getElementById("telError").innerHTML = "電話番号は11桁以下で入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("telError").innerHTML = "";
+            }
+
+            return valid;
+        }
+    </script>
 </body>
 
 

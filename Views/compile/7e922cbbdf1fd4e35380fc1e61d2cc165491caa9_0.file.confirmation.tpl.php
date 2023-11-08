@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-11-06 14:43:38
+/* Smarty version 4.3.4, created on 2023-11-08 11:25:42
   from '/Applications/MAMP/htdocs/mvc_app/Views/contact/confirmation.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_6548fb9a2f1b56_06220900',
+  'unifunc' => 'content_654b7036e10f74_99588996',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7e922cbbdf1fd4e35380fc1e61d2cc165491caa9' => 
     array (
       0 => '/Applications/MAMP/htdocs/mvc_app/Views/contact/confirmation.tpl',
-      1 => 1699281812,
+      1 => 1699442509,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6548fb9a2f1b56_06220900 (Smarty_Internal_Template $_smarty_tpl) {
+function content_654b7036e10f74_99588996 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 
@@ -39,33 +39,35 @@ function content_6548fb9a2f1b56_06220900 (Smarty_Internal_Template $_smarty_tpl)
 
         <div class="alert alert-info">
             <strong>氏名:</strong>
-            <p><?php echo $_smarty_tpl->tpl_vars['post']->value['name'];?>
+            <p><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['post']->value['name'], ENT_QUOTES, 'UTF-8', true);?>
 </p>
         </div>
         <div class="alert alert-info">
             <strong>ふりがな:</strong>
-            <p><?php echo $_smarty_tpl->tpl_vars['post']->value['kana'];?>
+            <p><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['post']->value['kana'], ENT_QUOTES, 'UTF-8', true);?>
 </p>
         </div>
         <div class="alert alert-info">
             <strong>電話番号:</strong>
-            <p><?php echo $_smarty_tpl->tpl_vars['post']->value['tel'];?>
+            <p><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['post']->value['tel'], ENT_QUOTES, 'UTF-8', true);?>
 </p>
         </div>
         <div class="alert alert-info">
             <strong>メールアドレス:</strong>
-            <p><?php echo $_smarty_tpl->tpl_vars['post']->value['email'];?>
+            <p><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['post']->value['email'], ENT_QUOTES, 'UTF-8', true);?>
 </p>
         </div>
         <div class="alert alert-info">
             <strong>問い合わせ内容:</strong>
-            <p><?php echo $_smarty_tpl->tpl_vars['post']->value['body'];?>
+            <p><?php echo nl2br((string) htmlspecialchars((string)$_smarty_tpl->tpl_vars['post']->value['body'], ENT_QUOTES, 'UTF-8', true), (bool) 1);?>
 </p>
         </div>
 
         <p>上記の内容でよろしいでしょうか？</p>
 
         <form action="/contact/create" method="post">
+        <input type="hidden" name="csrf_token" value="<?php echo $_smarty_tpl->tpl_vars['csrf_token']->value;?>
+">
             <input type="hidden" name="name" value="<?php echo $_smarty_tpl->tpl_vars['post']->value['name'];?>
 ">
             <input type="hidden" name="kana" value="<?php echo $_smarty_tpl->tpl_vars['post']->value['kana'];?>
@@ -102,6 +104,49 @@ function content_6548fb9a2f1b56_06220900 (Smarty_Internal_Template $_smarty_tpl)
 >
     <?php echo '<script'; ?>
  src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"><?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+>
+        function validateForm() {
+            var name = document.forms[0]["name"].value;
+            var kana = document.forms[0]["kana"].value;
+            var tel = document.forms[0]["tel"].value;
+            var email = document.forms[0]["email"].value;
+            var body = document.forms[0]["body"].value;
+
+            var valid = true; // フロントバリデーションのフラグ
+
+            if (name === "") {
+                document.getElementById("nameError").innerHTML = "氏名を入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("nameError").innerHTML = "";
+            }
+
+            if (kana === "") {
+                document.getElementById("kanaError").innerHTML = "ふりがなを入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("kanaError").innerHTML = "";
+            }
+
+            if (email === "") {
+                document.getElementById("emailError").innerHTML = "メールアドレスを入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("emailError").innerHTML = "";
+            }
+
+            if (tel.length > 11) {
+                document.getElementById("telError").innerHTML = "電話番号は11桁以下で入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("telError").innerHTML = "";
+            }
+
+            return valid;
+        }
+    <?php echo '</script'; ?>
 >
 </body>
 
