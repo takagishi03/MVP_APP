@@ -29,7 +29,7 @@
 
                     <div class="form-group">
                         <label for="tel">電話番号</label>
-                        <input type="tel" class="form-control" name="tel" placeholder="06-6012-3456" value="{$post['tel']|default:''}">
+                        <input type="tel" class="form-control" maxlength="11" name="tel" placeholder="04012349876" value="{$post['tel']|default:''}">
                         <p class="text-danger" id="telError">{$errorMessages['tel']|default:''}</p>
                     </div>
                     <div class="form-group">
@@ -106,12 +106,18 @@
             if (name === "") {
                 document.getElementById("nameError").innerHTML = "氏名を入力してください.";
                 valid = false;
+            } else if (name.length > 10) {
+                document.getElementById("nameError").innerHTML = "氏名は10文字以内で入力してください.";
+                valid = false;
             } else {
                 document.getElementById("nameError").innerHTML = "";
             }
 
             if (kana === "") {
                 document.getElementById("kanaError").innerHTML = "ふりがなを入力してください.";
+                valid = false;
+            } else if (kana.length > 10) {
+                document.getElementById("kanaError").innerHTML = "ふりがなは10文字以内で入力してください.";
                 valid = false;
             } else {
                 document.getElementById("kanaError").innerHTML = "";
@@ -120,18 +126,33 @@
             if (email === "") {
                 document.getElementById("emailError").innerHTML = "メールアドレスを入力してください.";
                 valid = false;
+            } else if (!validateEmail(email)) {
+                document.getElementById("emailError").innerHTML = "有効なメールアドレスを入力してください.";
+                valid = false;
             } else {
                 document.getElementById("emailError").innerHTML = "";
             }
 
-            if (tel.length > 11) {
-                document.getElementById("telError").innerHTML = "電話番号は11桁以下で入力してください.";
-                valid = false;
+            if (tel.match(/[0-9]+/g) != tel ) {
+                document.getElementById("telError").innerHTML = "半角英数字のみで入力してください.";
             } else {
                 document.getElementById("telError").innerHTML = "";
             }
 
+            if (body === "") {
+                document.getElementById("bodyError").innerHTML = "お問い合わせ内容を入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("bodyError").innerHTML = "";
+            }
+
             return valid;
+        }
+
+        function validateEmail(email) {
+            // メールアドレスの正規表現
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
         }
     </script>
 </body>

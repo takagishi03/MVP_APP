@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-11-08 11:25:38
+/* Smarty version 4.3.4, created on 2023-11-09 09:44:06
   from '/Applications/MAMP/htdocs/mvc_app/Views/contact/index.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_654b7032d1ee52_05461693',
+  'unifunc' => 'content_654ca9e6835382_38437043',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c57b4f7d76450b6666497f89adb5183a6385d349' => 
     array (
       0 => '/Applications/MAMP/htdocs/mvc_app/Views/contact/index.tpl',
-      1 => 1699442447,
+      1 => 1699523021,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_654b7032d1ee52_05461693 (Smarty_Internal_Template $_smarty_tpl) {
+function content_654ca9e6835382_38437043 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <html lang="ja">
 
@@ -56,7 +56,7 @@ function content_654b7032d1ee52_05461693 (Smarty_Internal_Template $_smarty_tpl)
 
                     <div class="form-group">
                         <label for="tel">電話番号</label>
-                        <input type="tel" class="form-control" name="tel" placeholder="06-6012-3456" value="<?php echo (($tmp = $_smarty_tpl->tpl_vars['post']->value['tel'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+                        <input type="tel" class="form-control" maxlength="11" name="tel" placeholder="04012349876" value="<?php echo (($tmp = $_smarty_tpl->tpl_vars['post']->value['tel'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 ">
                         <p class="text-danger" id="telError"><?php echo (($tmp = $_smarty_tpl->tpl_vars['errorMessages']->value['tel'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 </p>
@@ -161,12 +161,18 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
             if (name === "") {
                 document.getElementById("nameError").innerHTML = "氏名を入力してください.";
                 valid = false;
+            } else if (name.length > 10) {
+                document.getElementById("nameError").innerHTML = "氏名は10文字以内で入力してください.";
+                valid = false;
             } else {
                 document.getElementById("nameError").innerHTML = "";
             }
 
             if (kana === "") {
                 document.getElementById("kanaError").innerHTML = "ふりがなを入力してください.";
+                valid = false;
+            } else if (kana.length > 10) {
+                document.getElementById("kanaError").innerHTML = "ふりがなは10文字以内で入力してください.";
                 valid = false;
             } else {
                 document.getElementById("kanaError").innerHTML = "";
@@ -175,18 +181,33 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
             if (email === "") {
                 document.getElementById("emailError").innerHTML = "メールアドレスを入力してください.";
                 valid = false;
+            } else if (!validateEmail(email)) {
+                document.getElementById("emailError").innerHTML = "有効なメールアドレスを入力してください.";
+                valid = false;
             } else {
                 document.getElementById("emailError").innerHTML = "";
             }
 
-            if (tel.length > 11) {
-                document.getElementById("telError").innerHTML = "電話番号は11桁以下で入力してください.";
-                valid = false;
+            if (tel.match(/[0-9]+/g) != tel ) {
+                document.getElementById("telError").innerHTML = "半角英数字のみで入力してください.";
             } else {
                 document.getElementById("telError").innerHTML = "";
             }
 
+            if (body === "") {
+                document.getElementById("bodyError").innerHTML = "お問い合わせ内容を入力してください.";
+                valid = false;
+            } else {
+                document.getElementById("bodyError").innerHTML = "";
+            }
+
             return valid;
+        }
+
+        function validateEmail(email) {
+            // メールアドレスの正規表現
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
         }
     <?php echo '</script'; ?>
 >

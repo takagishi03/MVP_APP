@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-11-08 11:25:42
+/* Smarty version 4.3.4, created on 2023-11-09 09:41:11
   from '/Applications/MAMP/htdocs/mvc_app/Views/contact/confirmation.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_654b7036e10f74_99588996',
+  'unifunc' => 'content_654ca937dd1f02_40896201',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7e922cbbdf1fd4e35380fc1e61d2cc165491caa9' => 
     array (
       0 => '/Applications/MAMP/htdocs/mvc_app/Views/contact/confirmation.tpl',
-      1 => 1699442509,
+      1 => 1699517953,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_654b7036e10f74_99588996 (Smarty_Internal_Template $_smarty_tpl) {
+function content_654ca937dd1f02_40896201 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 
@@ -104,49 +104,6 @@ function content_654b7036e10f74_99588996 (Smarty_Internal_Template $_smarty_tpl)
 >
     <?php echo '<script'; ?>
  src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"><?php echo '</script'; ?>
->
-    <?php echo '<script'; ?>
->
-        function validateForm() {
-            var name = document.forms[0]["name"].value;
-            var kana = document.forms[0]["kana"].value;
-            var tel = document.forms[0]["tel"].value;
-            var email = document.forms[0]["email"].value;
-            var body = document.forms[0]["body"].value;
-
-            var valid = true; // フロントバリデーションのフラグ
-
-            if (name === "") {
-                document.getElementById("nameError").innerHTML = "氏名を入力してください.";
-                valid = false;
-            } else {
-                document.getElementById("nameError").innerHTML = "";
-            }
-
-            if (kana === "") {
-                document.getElementById("kanaError").innerHTML = "ふりがなを入力してください.";
-                valid = false;
-            } else {
-                document.getElementById("kanaError").innerHTML = "";
-            }
-
-            if (email === "") {
-                document.getElementById("emailError").innerHTML = "メールアドレスを入力してください.";
-                valid = false;
-            } else {
-                document.getElementById("emailError").innerHTML = "";
-            }
-
-            if (tel.length > 11) {
-                document.getElementById("telError").innerHTML = "電話番号は11桁以下で入力してください.";
-                valid = false;
-            } else {
-                document.getElementById("telError").innerHTML = "";
-            }
-
-            return valid;
-        }
-    <?php echo '</script'; ?>
 >
 </body>
 

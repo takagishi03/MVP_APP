@@ -54,61 +54,68 @@ class ContactController extends Controller
 
     // 問い合わせ登録
     public function create()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
-        $errorMessages = [];
-        if (empty($_POST['name'])) {
-            $errorMessages['name'] = '氏名を入力してください。';
-            echo "氏名を入力してください。";
-        }
-        if (empty($_POST['kana'])) {
-            $errorMessages['kana'] = 'ふりがなを入力してください。';
-        }
-        if (empty($_POST['email'])) {
-            $errorMessages['email'] = 'メールアドレスを入力してください。';
-        }
-        if (!empty($_POST['tel']) && strlen($_POST['tel']) > 11) {
-            $errorMessages['tel'] = '電話番号は11桁以下で入力してください.';
-        }
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
+            $errorMessages = [];
+            if (empty($_POST['name'])) {
+                $errorMessages['name'] = '氏名を入力してください。';
+                echo "氏名を入力してください。";
+            }
+            if (empty($_POST['kana'])) {
+                $errorMessages['kana'] = 'ふりがなを入力してください。';
+            }
+            if (empty($_POST['email'])) {
+                $errorMessages['email'] = 'メールアドレスを入力してください。';
+            }
+            if (!empty($_POST['tel']) && strlen($_POST['tel']) > 11) {
+                $errorMessages['tel'] = '電話番号は11桁以下で入力してください.';
+            }
+            if (!empty($_POST['tel']) && !ctype_digit($_POST['tel'])) {
+                $errorMessages['tel'] = '電話番号は半角数字で入力してください。';
+            }
+            if (!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $errorMessages['email'] = '有効なメールアドレスを入力してください。';
+            }
 
-        if (!empty($errorMessages)) {
-            // バリデーション失敗
-            $_SESSION['errorMessages'] = $errorMessages;
-            $_SESSION['post'] = $_POST;
-            header('Location: /contact/index');
-        } else {
-            // 登録処理
-            $contact = new contact;
-            $result = $contact->create(
-                $_POST['name'],
-                $_POST['kana'],
-                $_POST['tel'],
-                $_POST['email'],
-                $_POST['body']
-            );
-
-            if (is_numeric($result)) {
-                $this->view('contact/send-complete');
-            } else {
+            if (!empty($errorMessages)) {
+                // バリデーション失敗
                 $_SESSION['errorMessages'] = $errorMessages;
                 $_SESSION['post'] = $_POST;
-                header("Location: /contact/index");
+                header('Location: /contact/index');
+            } else {
+                // 登録処理
+                $contact = new contact;
+                $result = $contact->create(
+                    $_POST['name'],
+                    $_POST['kana'],
+                    $_POST['tel'],
+                    $_POST['email'],
+                    $_POST['body']
+                );
+
+                if (is_numeric($result)) {
+                    unset($_SESSION['post']);
+                    $this->view('contact/send-complete');
+                } else {
+                    $_SESSION['errorMessages'] = $errorMessages;
+                    $_SESSION['post'] = $_POST;
+                    header("Location: /contact/index");
+                }
             }
+        } else {
+            // CSRF攻撃を検出した場合の処理
+            echo "CSRF攻撃を検出しました。";
         }
-    } else {
-        // CSRF攻撃を検出した場合の処理
-        echo "CSRF攻撃を検出しました。";
     }
-}
 
 
     //  編集
     public function edit()
     {
-          // CSRFトークンを生成し、セッションに保存
-          $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-          // CSRFトークンをテンプレートに渡す
-          $csrf_token = $_SESSION['csrf_token'];
+        // CSRFトークンを生成し、セッションに保存
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        // CSRFトークンをテンプレートに渡す
+        $csrf_token = $_SESSION['csrf_token'];
 
         $id = $_GET['id'];
         $contact = new contact;
@@ -139,7 +146,13 @@ class ContactController extends Controller
             if (!empty($_POST['tel']) && strlen($_POST['tel']) > 11) {
                 $errorMessages['tel'] = '電話番号は11桁以下で入力してください.';
             }
-    
+            if (!empty($_POST['tel']) && !ctype_digit($_POST['tel'])) {
+                $errorMessages['tel'] = '電話番号は半角数字で入力してください。';
+            }
+            if (!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $errorMessages['email'] = '有効なメールアドレスを入力してください。';
+            }
+
             if (!empty($errorMessages)) {
                 // バリデーション失敗
                 $_SESSION['errorMessages'] = $errorMessages;
@@ -156,7 +169,7 @@ class ContactController extends Controller
                     $_POST['email'],
                     $_POST['body']
                 );
-    
+
                 if (is_numeric($result)) {
                     unset($_SESSION['post']);
                     header("Location: /contact/index");
@@ -172,7 +185,7 @@ class ContactController extends Controller
             echo "CSRF攻撃を検出しました。";
         }
     }
-    
+
     // デリート
     public function delete()
     {

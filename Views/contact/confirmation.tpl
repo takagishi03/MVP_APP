@@ -60,47 +60,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        function validateForm() {
-            var name = document.forms[0]["name"].value;
-            var kana = document.forms[0]["kana"].value;
-            var tel = document.forms[0]["tel"].value;
-            var email = document.forms[0]["email"].value;
-            var body = document.forms[0]["body"].value;
-
-            var valid = true; // フロントバリデーションのフラグ
-
-            if (name === "") {
-                document.getElementById("nameError").innerHTML = "氏名を入力してください.";
-                valid = false;
-            } else {
-                document.getElementById("nameError").innerHTML = "";
-            }
-
-            if (kana === "") {
-                document.getElementById("kanaError").innerHTML = "ふりがなを入力してください.";
-                valid = false;
-            } else {
-                document.getElementById("kanaError").innerHTML = "";
-            }
-
-            if (email === "") {
-                document.getElementById("emailError").innerHTML = "メールアドレスを入力してください.";
-                valid = false;
-            } else {
-                document.getElementById("emailError").innerHTML = "";
-            }
-
-            if (tel.length > 11) {
-                document.getElementById("telError").innerHTML = "電話番号は11桁以下で入力してください.";
-                valid = false;
-            } else {
-                document.getElementById("telError").innerHTML = "";
-            }
-
-            return valid;
-        }
-    </script>
 </body>
 
 
