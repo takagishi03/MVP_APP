@@ -3,7 +3,7 @@ class Controller
 {
     function __construct()
     {
-        if(session_status() === PHP_SESSION_NONE) {
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
@@ -11,12 +11,12 @@ class Controller
     public function view(string $template, array $params = []): void
     {
         $Smarty = new Smarty();
-        $Smarty->setTemplateDir(ROOT_PATH.'Views');
-        $Smarty->setCompileDir(ROOT_PATH.'Views/compile');
+        $Smarty->setTemplateDir(ROOT_PATH . 'Views');
+        $Smarty->setCompileDir(ROOT_PATH . 'Views/compile');
         $Smarty->assign($params);
         try {
             $Smarty->display($template . '.tpl');
-        } catch (SmartyException|Exception $e) {
+        } catch (SmartyException | Exception $e) {
             echo $e->getMessage();
             exit();
         }

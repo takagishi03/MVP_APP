@@ -60,6 +60,48 @@ function route($path, $httpMethod)
                 }
                 break;
 
+                // 問い合わせ
+            case 'contact':
+                $controllerName = 'ContactController';
+                switch ($case) {
+                        // 登録画面
+                    case ['index', 'get']:
+                        $methodName = 'index';
+                        break;
+                        // キャンセル時画
+                    case ['index', 'post']:
+                        $methodName = 'index';
+                        break;
+                        // 登録内容確認
+                    case ['edit-confirmation', 'post']:
+                        $methodName = 'confirmation';
+                        break;
+                        // 登録
+                    case ['create', 'post']:
+                        $methodName = 'create';
+                        break;
+                        // 削除
+                    case ['delete', 'get']:
+                        $methodName = 'delete';
+                        break;
+                        // 修正
+
+                    case ['edit', 'get']:
+                        $methodName = 'edit';
+                        break;
+
+                        // 更新
+                    case ['up-date', 'post']:
+                        $methodName = 'update';
+                        break;
+
+                        // 編集
+                    case ['edit', 'get']:
+                        $methodName = 'edit';
+                        break;
+                }
+                break;
+
             default:
                 $controllerName = '';
                 $methodName = '';
